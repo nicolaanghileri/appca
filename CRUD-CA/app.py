@@ -19,7 +19,7 @@ except mysql.connector.Error as err:
     print(err)
 else:
     print("Test database connection worked!")
-  cnx.close()
+    cnx.close()
 
 
 app = Flask(__name__)

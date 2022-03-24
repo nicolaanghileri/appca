@@ -62,3 +62,9 @@ button:hover{
     box-shadow: 0 0 5px #719ECE;
 }
 
+footer{
+    text-align: center;
+    align-items: bottom;
+    flex: 1;
+}
+

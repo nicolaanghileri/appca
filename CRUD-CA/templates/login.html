@@ -8,15 +8,19 @@
     </body>
     <div class="login">
             
-        <h1 class="title">Login</h1> 
-        <div class="login-inputs">
-             
-            <input type="text" placeholder="Username"/>
-            <br></br>
-            <br></br>
-            <input type="password" placeholder="Password"/>
-            <br></br>
-            <button class="btn">Let's go!</button>
-        </div>
+        <h1 class="title">Login</h1>
+        <form action="" method="post">
+            <div class="login-inputs">
+                <input type="text" placeholder="Username"/>
+                <br></br>
+                <br></br>
+                <input type="password" placeholder="Password"/>
+                <br></br>
+                <button class="btn" type="submit">Let's go!</button>
+            </div>
+        </form>
+        {% if error %}
+            <p class="error"><strong>Error:</strong> {{ error }}
+        {% endif %}
     </div>
 </html>

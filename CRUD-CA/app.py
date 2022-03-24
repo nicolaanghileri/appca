@@ -42,6 +42,9 @@ nav.Bar('navbar',[
 
 @app.route("/")
 def index():
+  #error = None
+  #if error allora settare error="messaggio errore"
+  #e poi render_template + error
     return render_template('index.html')
 
 @app.route("/login", methods=["GET", "POST"])
@@ -51,7 +54,7 @@ def login():
         session["user"] = user
         return redirect(url_for("user"))
     else:
-        return render_template('login.html')
+        return render_template('login.html', error=error)
 
 @app.route("/fishino")
 def fishino():

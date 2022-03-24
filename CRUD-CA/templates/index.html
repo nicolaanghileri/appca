@@ -1,13 +1,20 @@
-<html>
+<!DOCTYPE html><html>
+    <head>
+        <link rel="stylesheet" href="../static/css/index.css/">
+    </head>
+    <body>
+
+    </body>
     <header>
         <h1 class="logo">Controllo Ambientale</h1>
         <nav>
             <ul class = "nav_links">
-                <li><Link to='/'>Home</Link></li>
-                <li><Link to='/fishino'></Link>Fishino</li>
-                <li><Link to='/contact'></Link>Contact</li>
+                {% for item in nav.navbar %}
+                <li class="{{ 'active' if item.is_active else '' }}">
+                    <a href="{{ item.url }}">{{ item.label }}</a>
+                </li>
+                {% endfor %}
             </ul>
         </nav>
-        <Link to="login"class="cta"><button>Login</button></Link>
     </header>
 </html>

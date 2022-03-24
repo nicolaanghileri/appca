@@ -1,4 +1,6 @@
-
+body{
+    background-color: #262428;
+}
 .login{
     margin: auto ;
     position:relative;

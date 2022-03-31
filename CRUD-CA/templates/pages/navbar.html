@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <link rel="stylesheet" href="../static/css/navbar.css/">
+        <h1 class="logo">Controllo Ambientale</h1>
+        <nav>
+            <ul class = "nav_links">
+                {% for item in nav.navbar %}
+                <li class="{{ 'active' if item.is_active else '' }}">
+                    <a href="{{ item.url }}">{{ item.label }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </header>
+</html>

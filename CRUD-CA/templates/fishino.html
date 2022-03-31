@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../static/css/login.css">
+    </head>
+    <body>
+        {% extends "layout.html" %}
+        {% block content %}
+        <h1 style="color:white;">ACTIVE DEVICES</h1>
+        {% for item in out %}
+            <div>
+                <!--<button style="height:40px; width:40px;">{{item.position}}</button>-->
+                <p>{{item.position}}</p>
+            </div>
+        {% endfor %}
+        {% endblock %}
+    </body>
+</html>

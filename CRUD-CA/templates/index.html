@@ -3,23 +3,12 @@
         <link rel="stylesheet" href="../static/css/index.css/">
     </head>
     <body>
-
+        {% extends "layout.html" %}
+        {% block content %}
+        <h1>Welcome!</h1>
+        <p>
+            This page has been made to visualize the air quality inside
+            the CPT Trevano on the fourth floor (IT Section).</p>
+        {% endblock %}
     </body>
-    <header>
-        <h1 class="logo">Controllo Ambientale</h1>
-        <nav>
-            <ul class = "nav_links">
-                {% for item in nav.navbar %}
-                <li class="{{ 'active' if item.is_active else '' }}">
-                    <a href="{{ item.url }}">{{ item.label }}</a>
-                </li>
-                {% endfor %}
-            </ul>
-        </nav>
-    </header>
-    Welcome!
-    this page has been made to visualize the air quality inside
-    the CPT Trevano on the fourth floor (IT Section).
-
-    <footer class="footer">© Nicola Anghileri, Erik Pelloni, Lorenzo Spadea</footer>
 </html>

@@ -41,6 +41,7 @@ def index():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    error = None
     if request.method == "POST":
         user = request.form["nm"]
         session["user"] = user
@@ -50,12 +51,12 @@ def login():
 
 @app.route("/fishino")
 def fishino():
+    fishinos = []
     try:
       cnx = get_connection()
       cursor = cnx.cursor(dictionary=True)
       cursor.execute("SELECT * FROM fishino")
-      fishinos = []
-      
+  
       for row in cursor:
         print(row)
         fishinos.append(row)
@@ -69,16 +70,20 @@ def fishino():
 
 @app.route("/fishino/<fishino>")
 def get_datas_from_fishino(fishino):
-    f = str(fishino)
+
+    fishinos_datas = []
     try:
       cnx = get_connection()
-      cursor = cnx.cursor(dictionary=True)
-      cursor.execute("SELECT * FROM datas WHERE fishino_name='?'" , f)
-      fishinos_datas = []
+      cursor = cnx.cursor(prepared=True)  #prepared + dict non funziona (bug della libreria)
+      statement = """SELECT * FROM datas WHERE fishino_name=%s"""
+      params = (fishino,)
+      cursor.execute(statement, params)
+      
       for row in cursor:
-        print(row)
-        fishinos_datas.append(row)
-        logging.debug(f"datas records: ")
+        result = dict(zip(cursor.column_names, row))
+        print(result)
+        fishinos_datas.append(result)
+      logging.debug(f"datas records: {fishinos_datas}")
         
       cursor.close()
       cnx.close()

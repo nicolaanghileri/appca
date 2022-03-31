@@ -13,7 +13,6 @@ app.secret_key = "lachiavepiusegretadelmondo"
 nav = Navigation(app)
 
 # MySQL configurations
-
 def get_connection():
   try:
     cnx = mysql.connector.connect(user='adminca',password='Password&1',host='10.20.5.38',database='ca')
@@ -38,9 +37,6 @@ nav.Bar('navbar',[
 
 @app.route("/")
 def index():
-  #error = None
-  #if error allora settare error="messaggio errore"
-  #e poi render_template + error
     return render_template('index.html')
 
 @app.route("/login", methods=["GET", "POST"])
@@ -58,24 +54,37 @@ def fishino():
       cnx = get_connection()
       cursor = cnx.cursor(dictionary=True)
       cursor.execute("SELECT * FROM fishino")
-      out = []
+      fishinos = []
       
       for row in cursor:
-        #fihsino.py[key] = cursor
-        out.append(row)
-      logging.debug(f'fishino records: {out}')
+        print(row)
+        fishinos.append(row)
+      logging.debug(f'fishino records: {fishinos}')
       
       cursor.close()
       cnx.close()
-    except e as err:
+    except Exception as e:
       logging.exception(e)
-        
-    return render_template('fishino.html')
+    return render_template('fishino.html', fishino= fishinos)
 
-    
-@app.route("/navbar")
-def navbar():
-    return render_template('navbar.html')
+@app.route("/fishino/<fishino>")
+def get_datas_from_fishino(fishino):
+    f = str(fishino)
+    try:
+      cnx = get_connection()
+      cursor = cnx.cursor(dictionary=True)
+      cursor.execute("SELECT * FROM datas WHERE fishino_name='?'" , f)
+      fishinos_datas = []
+      for row in cursor:
+        print(row)
+        fishinos_datas.append(row)
+        logging.debug(f"datas records: ")
+        
+      cursor.close()
+      cnx.close()
+    except Exception as e:
+      logging.exception(e)
+    return render_template("fishino.html", data=fishinos_datas)
 
 if __name__ == '__main__':
     app.debug = True

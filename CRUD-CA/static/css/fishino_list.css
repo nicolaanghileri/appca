@@ -1,7 +1,16 @@
 button{
     color: orange;
     background-color: orange;
-    width:200px;
-    height: 200px;
+    width:150px;
+    height: 150px;
     align-content: center;
+}
+
+.list{
+    text-align: center;
+}
+
+h1{
+    color: white;
+    text-align: center;
 }

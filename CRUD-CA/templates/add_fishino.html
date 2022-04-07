@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="../static/css/add_user.css">
+        <link rel="stylesheet" href="../static/css/add_fishino.css">
     </head>
     <body>
         {% extends "layout.html" %}
         {% block content %}
         <div class="add_user">
-            <h1 class="title">Add an Admin</h1> 
+            <h1 class="title">Add a Fishino</h1> 
             <form method="post">
                 <div class="add-user-inputs">
-                    <input type="text" placeholder="Username" name="username" />
+                    <input type="text" placeholder="ID Name" name="id_name"/>
                     <br></br>
-                    <input type="password" placeholder="Password" name="password" />
+                    <input type="text" placeholder="Position" name="position"/>
                     <br></br>
-                    <button class="btn" type="submit">Go!</button>
+                    <button class="btn">Add!</button>
                 </div>
-            </form>
+            </form> 
         </div>
         {% endblock %}
     </body>

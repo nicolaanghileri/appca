@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request,session
 from flask_navigation import Navigation
 from flask_mysqldb import MySQL
+from flask_bcrypt import Bcrypt
 from mysql.connector import (connection)
 import logging
 import json
@@ -13,6 +14,7 @@ from graphs import *
 app = Flask(__name__)
 app.secret_key = "lachiavepiusegretadelmondo"
 nav = Navigation(app)
+nav_admin = Navigation(app)
 
 # MySQL configurations
 def get_connection():
@@ -36,21 +38,30 @@ nav.Bar('navbar',[
     nav.Item('Login', 'login')
 ])
 
+nav_admin.Bar('navbar', [
+  nav.Item('Home', 'index'),
+  nav.Item('Fishino', 'fishino'),
+  nav.Item('Add User', 'add_user'),
+  nav.Item('Add Fishino', 'add_fishino'),
+  nav.Item('Logout', 'logout')
+])
 
 @app.route("/")
 def index():
     return render_template('index.html')
+    
 
+
+bcryptObj = Bcrypt(app)
 @app.route("/login", methods=["GET", "POST"])
 def login():
     error = None
     if request.method == "POST":
-        user = request.form["nm"]
-        session["user"] = user
-        return redirect(url_for("user"))
-    else:
-        return render_template('login.html', error=error)
-
+      uname = request.form['username'] 
+      password = request.form['password'] 
+      hashPassword = bcryptObj.generate_password_hash(password)
+            
+        
 @app.route("/fishino")
 def fishino():
     fishinos = []
@@ -124,7 +135,7 @@ def is_fishino(fishino_name):
     logging.exception(e)
   return exist
     
-@app.route("/fishino/data" , methods=['GET' , 'POST'])
+@app.route("/fishino/data" , methods=['POST'])
 def get_insert_data():
     if request.method == 'POST':
         content_type = request.headers.get('Content-Type')
@@ -145,10 +156,20 @@ def get_insert_data():
     else:
         print('Invalid Method request')
     return "200"
-            
-        
-    
-    
+
+
+@app.route('/add_user')
+def add_user():
+  return render_template('add_user.html')
+
+@app.route('/add_fishino')
+def add_fishino():
+  return render_template('add_fishino.html')
+
+@app.route('/logout')
+def logout():
+  return None
+
 
 if __name__ == '__main__':
     app.debug = True

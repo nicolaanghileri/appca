@@ -4,7 +4,7 @@ from flask_mysqldb import MySQL
 from mysql.connector import (connection)
 import logging
 import mysql.connector
-
+from graphs import *
 
 
 

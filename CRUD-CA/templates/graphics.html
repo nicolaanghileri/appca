@@ -7,12 +7,10 @@
     <body>
         {% extends "layout.html" %}
         {% block content %}
-        <h1 style="color:white;">ACTIVE DEVICES</h1>
-        <div>
-        {% for item in fishino %}
-            <button action="localhost:5000/fishino/{{item.name}}">{{item.position}}</button>
-        {% endfor %}
-        </div>
+            <div class="container" align="center">
+                  <embed type="image/svg+xml" src={{graph_data_humidity|safe}} style='max-width:1000px'/>
+                  <embed type="image/svg+xml" src={{graph_data_co2|safe}} style='max-width:1000px'/>
+            </div>
         {% endblock %}
     </body>
 </html>

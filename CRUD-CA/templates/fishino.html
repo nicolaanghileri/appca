@@ -7,10 +7,10 @@
     <body>
         {% extends "layout.html" %}
         {% block content %}
-        <h1 style="color:white;">ACTIVE DEVICES</h1>
-        <div>
+        <h1>ACTIVE DEVICES</h1>
+        <div class="list">
         {% for item in fishino %}
-            <button action="localhost:5000/fishino/{{item.name}}">{{item.position}}</button>
+            <button action="/{{item.name}}">{{item.position}}</button>
         {% endfor %}
         </div>
         {% endblock %}

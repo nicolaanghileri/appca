@@ -2,3 +2,4 @@ Flask-Navigation
 Flask
 flask_mysqldb
 mysql_connector
+pygal

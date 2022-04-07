@@ -3,7 +3,9 @@ from flask_navigation import Navigation
 from flask_mysqldb import MySQL
 from mysql.connector import (connection)
 import logging
+import json
 import mysql.connector
+from datetime import date, datetime, timedelta
 from graphs import *
 
 
@@ -90,6 +92,63 @@ def get_datas_from_fishino(fishino):
     except Exception as e:
       logging.exception(e)
     return render_template("fishino.html", data=fishinos_datas)
+    
+
+def insert_data(n , h , b , no , c , t):
+    try:
+      cnx = get_connection()
+      cursor = cnx.cursor()  
+      now = datetime.now()
+      statement = """INSERT INTO datas(data, fishino_name, humidity, brightness, noise,co2 ,temperature) VALUES (%s,%s,%s,%s,%s,%s,%s)"""
+      val = (now, n ,h , b, no, c , t )
+      cursor.execute(statement, val)
+      cursor.close()
+      cnx.commit()
+      cnx.close()
+    except Exception as e:
+      logging.exception(e)
+      
+      
+def is_fishino(fishino_name):
+  try:
+    exist = False
+    cnx = get_connection()
+    cursor = cnx.cursor(dictionary=True)
+    cursor.execute("SELECT name FROM fishino")
+    for row in cursor:
+      if(fishino_name == row["name"]):
+          exist = True
+    cursor.close()
+    cnx.close()
+  except Exception as e:
+    logging.exception(e)
+  return exist
+    
+@app.route("/fishino/data" , methods=['GET' , 'POST'])
+def get_insert_data():
+    if request.method == 'POST':
+        content_type = request.headers.get('Content-Type')
+        if(content_type == 'application/json'):
+            json = request.json
+            name = json["name"]
+            if(is_fishino(name)):
+                humidity = json["humidity"]
+                brigthness = json["brightness"]
+                noise = json["noise"]
+                co2 = json["co2"]
+                temperature = json["temperature"]
+                insert_data(name , humidity , brigthness , noise , co2 , temperature)
+            else:
+                print(f"fishino name '{name}' does not exist")
+        else:
+            print('invalid content type')
+    else:
+        print('Invalid Method request')
+    return "200"
+            
+        
+    
+    
 
 if __name__ == '__main__':
     app.debug = True

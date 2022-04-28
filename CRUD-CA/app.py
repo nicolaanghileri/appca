@@ -17,7 +17,7 @@ nav_admin = Navigation(app)
 # MySQL configurations
 def get_connection():
   try:
-    cnx = mysql.connector.connect(user='ControlloAmbient',password='apYv#C-wg*b7gn6f',host='ControlloAmbientale.mysql.pythonanywhere-services.com',database='Controllo>
+    cnx = mysql.connector.connect(user='ControlloAmbient',password='apYv#C-wg*b7gn6f',host='ControlloAmbientale.mysql.pythonanywhere-services.com',database='Controllo$ca')
     logging.debug('connection established')
     return cnx
   except mysql.connector.Error as err:

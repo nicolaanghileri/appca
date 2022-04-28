@@ -9,8 +9,6 @@ import mysql.connector
 from datetime import date, datetime, timedelta
 from graphs import *
 
-
-
 app = Flask(__name__)
 app.secret_key = "lachiavepiusegretadelmondo"
 nav = Navigation(app)
@@ -19,18 +17,11 @@ nav_admin = Navigation(app)
 # MySQL configurations
 def get_connection():
   try:
-    cnx = mysql.connector.connect(user='adminca',password='Password&1',host='10.20.5.38',database='ca')
+    cnx = mysql.connector.connect(user='ControlloAmbient',password='apYv#C-wg*b7gn6f',host='ControlloAmbientale.mysql.pythonanywhere-services.com',database='Controllo>
+    logging.debug('connection established')
     return cnx
   except mysql.connector.Error as err:
-    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-      print("Something is wrong with your user name or password")
-    elif err.errno == errorcode.ER_BAD_DB_ERROR:
-      print("Database does not exist")
-    else:
-      print(err)
-  else:
-      print("Test database connection worked!")  
-  
+    logging.exception('error during db connection')
 
 nav.Bar('navbar',[
     nav.Item('Home', 'index'),
@@ -49,8 +40,6 @@ nav_admin.Bar('navbar', [
 @app.route("/")
 def index():
     return render_template('index.html')
-    
-
 
 bcryptObj = Bcrypt(app)
 @app.route("/login", methods=["GET", "POST"])
@@ -59,8 +48,7 @@ def login():
     if request.method == "POST":
       uname = request.form['username'] 
       password = request.form['password'] 
-      hashPassword = bcryptObj.generate_password_hash(password)
-            
+      hashPassword = bcryptObj.generate_password_hash(password)            
         
 @app.route("/fishino")
 def fishino():
@@ -91,7 +79,7 @@ def get_datas_from_fishino(fishino):
       statement = """SELECT * FROM datas WHERE fishino_name=%s"""
       params = (fishino,)
       cursor.execute(statement, params)
-      
+            
       for row in cursor:
         result = dict(zip(cursor.column_names, row))
         print(result)
@@ -104,13 +92,12 @@ def get_datas_from_fishino(fishino):
       logging.exception(e)
     return render_template("fishino.html", data=fishinos_datas)
     
-
 def insert_data(n , h , b , no , c , t):
     try:
       cnx = get_connection()
       cursor = cnx.cursor()  
       now = datetime.now()
-      statement = """INSERT INTO datas(data, fishino_name, humidity, brightness, noise,co2 ,temperature) VALUES (%s,%s,%s,%s,%s,%s,%s)"""
+      statement = """INSERT INTO data(data, fishino_name, humidity, brightness, noise,co2 ,temperature) VALUES (%s,%s,%s,%s,%s,%s,%s)"""
       val = (now, n ,h , b, no, c , t )
       cursor.execute(statement, val)
       cursor.close()
@@ -138,7 +125,7 @@ def is_fishino(fishino_name):
 @app.route("/fishino/data" , methods=['POST'])
 def get_insert_data():
     if request.method == 'POST':
-        content_type = request.headers.get('Content-Type')
+content_type = request.headers.get('Content-Type')
         if(content_type == 'application/json'):
             json = request.json
             name = json["name"]
@@ -160,7 +147,17 @@ def get_insert_data():
 
 @app.route('/add_user')
 def add_user():
-  return render_template('add_user.html')
+  if request.method == 'POST':
+    uname = request.form['username']
+    pwd =  request.form['password']
+    hash_pwd = bcryptObj.generate_password_hash(password)
+    cnx =  get_connection()
+    cur =  cnx.cursor()
+    statement = 'INSERT INTO user(username , pwd) VALUES (%s,%s)'
+    val = (uname , hash_pwd)
+    cur.execute(statement, val);
+  else:
+    print("invalid request method")
 
 @app.route('/add_fishino')
 def add_fishino():

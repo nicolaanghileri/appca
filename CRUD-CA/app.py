@@ -17,7 +17,7 @@ nav_admin = Navigation(app)
 # MySQL configurations
 def get_connection():
   try:
-    cnx = mysql.connector.connect(user='ControlloAmbient',password='apYv#C-wg*b7gn6f',host='ControlloAmbientale.mysql.pythonanywhere-services.com',database='Controllo$ca')
+    cnx = mysql.connector.connect(user='ControlloAmbient',password='apYv#C-wg*b7gn6f',host='ControlloAmbientale.mysql.pythonanywhere-services.com',database='ControlloAmbient$ca')
     logging.debug('connection established')
     return cnx
   except mysql.connector.Error as err:
@@ -45,9 +45,9 @@ bcryptObj = Bcrypt(app)
 @app.route("/login", methods=["GET", "POST"])
 def login():
   if request.method == "POST":
-    uname = request.form['username'] 
-    password = request.form['pwd'] 
-    hashPassword = bcryptObj.generate_password_hash(password)    
+    uname = request.form['username']
+    password = request.form['pwd']
+    hash_password = bcryptObj.generate_password_hash(password)
     statement = "SELECT * FROM usr WHERE username =%s"
     cnx = get_connection()
     cur = cnx.cursor
@@ -55,15 +55,15 @@ def login():
     if res > 0:
       data = cur.fetchone()
       pwd = data['pwd']
-      if bcrypt.check_password_hash(pwd , password):
+      if bcryptObj.check_password_hash(pwd , hash_password):
         session["login"] = True
-        flash("You have logged in succesfully")
+        print("You have logged in succesfully")
       else:
-        flash("Password does not match");
+        print("Password does not match");
         return redirect("/login.html")
     else:
-      flash(f"Username  '{uname}' does not exists")
-        return redirect("login.html")
+      print(f"Username  '{uname}' does not exists")
+      return redirect("login.html")
 
 @app.route("/fishino")
 def fishino():
@@ -72,12 +72,12 @@ def fishino():
       cnx = get_connection()
       cursor = cnx.cursor(dictionary=True)
       cursor.execute("SELECT * FROM fishino")
-  
+
       for row in cursor:
         print(row)
         fishinos.append(row)
       logging.debug(f'fishino records: {fishinos}')
-      
+
       cursor.close()
       cnx.close()
     except Exception as e:
@@ -94,23 +94,23 @@ def get_datas_from_fishino(fishino):
       statement = """SELECT * FROM datas WHERE fishino_name=%s"""
       params = (fishino,)
       cursor.execute(statement, params)
-            
+
       for row in cursor:
         result = dict(zip(cursor.column_names, row))
         print(result)
         fishinos_datas.append(result)
       logging.debug(f"datas records: {fishinos_datas}")
-        
+
       cursor.close()
       cnx.close()
     except Exception as e:
       logging.exception(e)
     return render_template("fishino.html", data=fishinos_datas)
-    
+
 def insert_data(n , h , b , no , c , t):
     try:
       cnx = get_connection()
-      cursor = cnx.cursor()  
+      cursor = cnx.cursor()
       now = datetime.now()
       statement = """INSERT INTO data(data, fishino_name, humidity, brightness, noise,co2 ,temperature) VALUES (%s,%s,%s,%s,%s,%s,%s)"""
       val = (now, n ,h , b, no, c , t )
@@ -120,8 +120,8 @@ def insert_data(n , h , b , no , c , t):
       cnx.close()
     except Exception as e:
       logging.exception(e)
-      
-      
+
+
 def is_fishino(fishino_name):
   try:
     exist = False
@@ -136,11 +136,11 @@ def is_fishino(fishino_name):
   except Exception as e:
     logging.exception(e)
   return exist
-    
+
 @app.route("/fishino/data" , methods=['POST'])
 def get_insert_data():
     if request.method == 'POST':
-content_type = request.headers.get('Content-Type')
+        content_type = request.headers.get('Content-Type')
         if(content_type == 'application/json'):
             json = request.json
             name = json["name"]
@@ -166,7 +166,7 @@ def add_user():
   if request.method == 'POST':
     uname = request.form['username']
     pwd =  request.form['pwd']
-    hash_pwd = bcryptObj.generate_password_hash(password)
+    hash_pwd = bcryptObj.generate_password_hash(pwd)
     cnx =  get_connection()
     cur =  cnx.cursor()
     statement = 'INSERT INTO user(username , pwd) VALUES (%s,%s)'

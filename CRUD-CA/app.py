@@ -162,7 +162,7 @@ content_type = request.headers.get('Content-Type')
 
 @app.route('/add_user')
 def add_user():
-  render_template(add_user.html);
+  render_template(add_user.html)
   if request.method == 'POST':
     uname = request.form['username']
     pwd =  request.form['pwd']
@@ -171,17 +171,18 @@ def add_user():
     cur =  cnx.cursor()
     statement = 'INSERT INTO user(username , pwd) VALUES (%s,%s)'
     val = (uname , hash_pwd)
-    cur.execute(statement, val);
+    cur.execute(statement, val)
   else:
     print("invalid request method")
 
 @app.route('/add_fishino')
 def add_fishino():
-  return render_template('add_fishino.html' , navbar=nav_admin)
+  return render_template('add_fishino.html')
 
 @app.route('/logout')
 def logout():
   session.clear()
+  return render_template("index.html")
 
 
 

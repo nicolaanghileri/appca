@@ -44,12 +44,27 @@ def index():
 bcryptObj = Bcrypt(app)
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    error = None
-    if request.method == "POST":
-      uname = request.form['username'] 
-      password = request.form['password'] 
-      hashPassword = bcryptObj.generate_password_hash(password)            
-        
+  if request.method == "POST":
+    uname = request.form['username'] 
+    password = request.form['pwd'] 
+    hashPassword = bcryptObj.generate_password_hash(password)    
+    statement = "SELECT * FROM usr WHERE username =%s"
+    cnx = get_connection()
+    cur = cnx.cursor
+    res = cur.execute(statement , uname)
+    if res > 0:
+      data = cur.fetchone()
+      pwd = data['pwd']
+      if bcrypt.check_password_hash(pwd , password):
+        session["login"] = True
+        flash("You have logged in succesfully")
+      else:
+        flash("Password does not match");
+        return redirect("/login.html")
+    else:
+      flash(f"Username  '{uname}' does not exists")
+        return redirect("login.html")
+
 @app.route("/fishino")
 def fishino():
     fishinos = []
@@ -147,9 +162,10 @@ content_type = request.headers.get('Content-Type')
 
 @app.route('/add_user')
 def add_user():
+  render_template(add_user.html);
   if request.method == 'POST':
     uname = request.form['username']
-    pwd =  request.form['password']
+    pwd =  request.form['pwd']
     hash_pwd = bcryptObj.generate_password_hash(password)
     cnx =  get_connection()
     cur =  cnx.cursor()
@@ -161,11 +177,12 @@ def add_user():
 
 @app.route('/add_fishino')
 def add_fishino():
-  return render_template('add_fishino.html')
+  return render_template('add_fishino.html' , navbar=nav_admin)
 
 @app.route('/logout')
 def logout():
-  return None
+  session.clear()
+
 
 
 if __name__ == '__main__':

@@ -9,10 +9,12 @@
         {% block content %}
         <h1>ACTIVE DEVICES</h1>
         <div class="list">
+        <form action="http://localhost:5000/fishino/">
         {% for item in fishino %}
-            <button action="/{{item.name}}">{{item.position}}</button>
+            <button type="submit" name="{{item.name}}">{{item.name}}</button>
         {% endfor %}
-        </div>
+        </form>
+    </div>
         {% endblock %}
     </body>
 </html>

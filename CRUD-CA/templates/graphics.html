@@ -3,13 +3,27 @@
     <head>
         <link rel="stylesheet" href="../static/css/login.css">
         <link rel="stylesheet" href="../static/css/fishino_list.css">
+        <link rel="stylesheet" href="../static/css/graphics.css">
     </head>
     <body>
         {% extends "layout.html" %}
         {% block content %}
-            <div class="container" align="center">
-                  <embed type="image/svg+xml" src={{graph_data_humidity|safe}} style='max-width:1000px'/>
-                  <embed type="image/svg+xml" src={{graph_data_co2|safe}} style='max-width:1000px'/>
+            <form onchange="">
+                <input type="radio" id="today" name="time" value="today" checked>
+                <label for="today">Today</label><br>
+                <input type="radio" id="week" name="time" value="week">
+                <label for="week">Last week</label><br>
+                <input type="radio" id="month" name="time" value="month">
+                <label for="month">Last month</label>
+                <input type="radio" id="year" name="time" value="year">
+                <label for="year">Last year</label>
+            </form>
+            <div class="container">
+                  <embed type="image/svg+xml" src={{graph_data_1|safe}} style='max-width:1000px'/>
+                  <embed type="image/svg+xml" src={{graph_data_2|safe}} style='max-width:1000px'/>
+                  <embed type="image/svg+xml" src={{graph_data_3|safe}} style='max-width:1000px'/>
+                  <embed type="image/svg+xml" src={{graph_data_4|safe}} style='max-width:1000px'/>
+                  <embed type="image/svg+xml" src={{graph_data_5|safe}} style='max-width:1000px'/>
             </div>
         {% endblock %}
     </body>

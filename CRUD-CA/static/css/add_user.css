@@ -1,6 +1,7 @@
 body{
     background-color: #262428;
 }
+
 .add_user{
     margin: auto ;
     position:relative;
@@ -53,7 +54,7 @@ input:focus{
     box-shadow: 0 0 5px #719ECE;
 }
 
-h1{
+h1, h2{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
     'Lucida Sans', Arial, sans-serif;
     padding-bottom: 20px;

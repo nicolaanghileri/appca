@@ -36,6 +36,7 @@ input{
     background-color: #262428;
     border: none;
     font-size: 15px;
+    border:1px solid orange;
 }
 
 .btn:hover{

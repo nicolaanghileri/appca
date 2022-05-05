@@ -3,14 +3,21 @@ button{
     background-color: orange;
     width:150px;
     height: 150px;
-    align-content: center;
 }
 
-.list{
-    text-align: center;
+
+.center {
+  text-align:center;
 }
 
 h1{
     color: white;
     text-align: center;
-} 
+}
+
+.del-btn{
+    background-color:red;
+    width:50px;
+    height: 50px;
+    border-radius:10px;
+}

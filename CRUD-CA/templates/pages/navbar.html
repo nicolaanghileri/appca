@@ -4,13 +4,22 @@
         <link rel="stylesheet" href="../static/css/navbar.css/">
         <h1 class="logo">Controllo Ambientale</h1>
         <nav>
+            {% if session["login"]  %}
             <ul class = "nav_links">
-                {% for item in nav.navbar %}
-                <li class="{{ 'active' if item.is_active else '' }}">
-                    <a href="{{ item.url }}">{{ item.label }}</a>
-                </li>
-                {% endfor %}
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('fishino') }}">Fishino</a></li>
+                <li><a href="{{ url_for('add_user') }}">Add user</a></li>
+                <li><a href="{{ url_for('add_fishino') }}">Add fishino</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout {{session["username"]}}</a></li>
             </ul>
+            {% else %}
+            <ul class = "nav_links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('fishino') }}">Fishino</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+            </ul>
+
+            {% endif %}
         </nav>
     </header>
 </html>

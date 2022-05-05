@@ -1,6 +1,9 @@
-Flask-Navigation
 Flask
 flask_mysqldb
 mysql_connector
 pygal
 bcrypt
+sys
+graphs
+json
+logging

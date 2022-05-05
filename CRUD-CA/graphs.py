@@ -1,27 +1,38 @@
 import pygal
-def humidity():
+from pygal.style import Style
+import datetime
+from datetime import datetime
+
+custom_style = Style(
+	background='#262428',
+ 	plot_background='#262428',
+ 	foreground='#F2AA4CFF',
+ 	foreground_strong='#F2AA4CFF',
+ 	foreground_subtle='#630C0D')
+
+def create_graph_det(fishino_id, position, type, values, labels,time ):
 	try:
-		graph = pygal.Line()
-		graph.title = '% Change Coolness of programming languages over time.'
-		graph.x_labels = ['2011','2012','2013','2014','2015','2016']
-		graph.add('Python',  [15, 31, 89, 200, 356, 900])
-		graph.add('Java',    [15, 45, 76, 80,  91,  95])
-		graph.add('C++',     [5,  51, 54, 102, 150, 201])
-		graph.add('All others combined!',  [5, 15, 21, 55, 92, 105])
+		time = []
+		for i in labels:
+			f = i.strftime("%H:%M:%S")
+			time.append(f)
+		graph = pygal.Line(style=custom_style)
+		graph.title = "{} detected by {} at {}:".format(type,fishino_id, position)
+		graph.x_labels = time
+		graph.add(type, values)
 		graph_data = graph.render_data_uri()
 		return graph_data
 	except Exception as e:
 		return(str(e))
 
-def co2():
+
+
+def create_graph(fishino_id, position, type, values, labels, time):
 	try:
-		graph = pygal.Line()
-		graph.title = '% Change Coolness of programming languages over time.'
-		graph.x_labels = ['2011','2012','2013','2014','2015','2016']
-		graph.add('Python',  [15, 31, 89, 200, 356, 900])
-		graph.add('Java',    [15, 45, 76, 80,  91,  95])
-		graph.add('C++',     [5,  51, 54, 102, 150, 201])
-		graph.add('All others combined!',  [5, 15, 21, 55, 92, 105])
+		graph = pygal.Line(style=custom_style)
+		graph.title = "{} detected by {} at {} {}".format(type,fishino_id, position, time)
+		graph.x_labels = labels
+		graph.add(type, values)
 		graph_data = graph.render_data_uri()
 		return graph_data
 	except Exception as e:

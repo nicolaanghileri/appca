@@ -7,7 +7,7 @@
         {% extends "layout.html" %}
         {% block content %}
         <div class="add_user">
-            <h1 class="title">Add an Admin</h1> 
+            <h1 class="title">Add an Admin</h1>
             <form method="post">
                 <div class="add-user-inputs">
                     <input type="text" placeholder="Username" name="username" />
@@ -15,10 +15,11 @@
                     <input type="password" placeholder="Password" name="password" />
                     <br></br>
                     <button class="btn" type="submit">Go!</button>
+                    <h2>{{ msg }} </h2>
                 </div>
             </form>
         </div>
         {% endblock %}
     </body>
-    
+
 </html>
